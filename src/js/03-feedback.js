@@ -4,7 +4,7 @@ const feedbackForm = document.querySelector(".feedback-form");
 const email = document.querySelector("input");
 const message = document.querySelector("textarea");
 
-const localSetter = (e) => {
+const localSetter = () => {
     const fd = new FormData(feedbackForm);
     const obj = Object.fromEntries(fd);
 
@@ -17,11 +17,14 @@ const formData = (e) => {
     const fd = new FormData(feedbackForm);
     const obj = Object.fromEntries(fd);
 
-    if (email.value === "" && message.value === "") return alert("Fill up the fields first!");
+    if (email.value !== "" && message.value !== "") {
+        localStorage.removeItem("feedback-form-state");
+        feedbackForm.reset();
+        console.log(obj);
+    } else {
+        alert("Fill up the fields first!");
+    }
     
-    localStorage.removeItem("feedback-form-state");
-    feedbackForm.reset();
-    console.log(obj);
 }
 
 feedbackForm.addEventListener("input", throttle(localSetter, 500));
